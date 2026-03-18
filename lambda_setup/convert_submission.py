@@ -243,6 +243,7 @@ def main():
     outputs_dir = base_dir / "outputs"
     chain_map_path = base_dir / "chain_map.json"
     test_csv_path = base_dir / "test_sequences.csv"
+    sample_csv_path = base_dir / "sample_submission.csv"
     out_csv = base_dir / "submission.csv"
 
     # Load chain map
@@ -259,30 +260,47 @@ def main():
             for row in csv.DictReader(f):
                 test_rows_map[row["target_id"]] = row
 
-    # Process each target
-    COLUMNS = (["ID", "resname", "resid"] +
-               [f"{x}_{i}" for i in range(1, N_MODELS + 1) for x in ("x", "y", "z")])
-
-    all_rows: list[dict] = []
-    missing_targets: list[str] = []
+    # Build predictions keyed by ID for all targets
+    pred_by_id: dict[str, dict] = {}
     zero_filled_targets: list[str] = []
 
     for target_id, chain_order in chain_map.items():
         rows = process_target(target_id, chain_order, outputs_dir, test_rows_map)
         if rows is None:
-            missing_targets.append(target_id)
-            # Generate zero-filled rows so submission is still complete
-            full_seq = test_rows_map.get(target_id, {}).get("sequence", "")
-            for i, nt in enumerate(full_seq, start=1):
-                row = {"ID": f"{target_id}_{i}", "resname": nt, "resid": i}
+            zero_filled_targets.append(target_id)
+        else:
+            for row in rows:
+                pred_by_id[row["ID"]] = row
+
+    # Use sample_submission.csv as template for exact row ordering
+    if not sample_csv_path.exists():
+        print("ERROR: sample_submission.csv not found.", file=sys.stderr)
+        sys.exit(1)
+
+    COLUMNS = (["ID", "resname", "resid"] +
+               [f"{x}_{i}" for i in range(1, N_MODELS + 1) for x in ("x", "y", "z")])
+
+    all_rows: list[dict] = []
+    with open(sample_csv_path) as f:
+        for sample_row in csv.DictReader(f):
+            sid = sample_row["ID"]
+            if sid in pred_by_id:
+                # Use our coords, keep sample's ID/resname/resid
+                row = {"ID": sid, "resname": sample_row["resname"],
+                       "resid": sample_row["resid"]}
+                for col in COLUMNS:
+                    if col not in ("ID", "resname", "resid"):
+                        row[col] = pred_by_id[sid].get(col, 0.0)
+                all_rows.append(row)
+            else:
+                # Zero-fill missing predictions
+                row = {"ID": sid, "resname": sample_row["resname"],
+                       "resid": sample_row["resid"]}
                 for m in range(1, N_MODELS + 1):
                     row[f"x_{m}"] = 0.0
                     row[f"y_{m}"] = 0.0
                     row[f"z_{m}"] = 0.0
                 all_rows.append(row)
-            zero_filled_targets.append(target_id)
-        else:
-            all_rows.extend(rows)
 
     # Write CSV
     with open(out_csv, "w", newline="") as f:
@@ -290,9 +308,10 @@ def main():
         writer.writeheader()
         writer.writerows(all_rows)
 
+    predicted_count = len(chain_map) - len(zero_filled_targets)
     print(f"\n=== Submission written: {out_csv} ===")
     print(f"  Total rows: {len(all_rows)}")
-    print(f"  Targets with predictions: {len(chain_map) - len(zero_filled_targets)}")
+    print(f"  Targets with predictions: {predicted_count}")
     if zero_filled_targets:
         print(f"  Zero-filled (no output): {zero_filled_targets}")
 
