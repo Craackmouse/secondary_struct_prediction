@@ -302,11 +302,9 @@ def main():
                     row[f"z_{m}"] = 0.0
                 all_rows.append(row)
 
-    # Write CSV
-    with open(out_csv, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=COLUMNS)
-        writer.writeheader()
-        writer.writerows(all_rows)
+    # Write CSV via pandas (LF line endings, matching Kaggle scorer expectations)
+    df = pd.DataFrame(all_rows, columns=COLUMNS)
+    df.to_csv(out_csv, index=False)
 
     predicted_count = len(chain_map) - len(zero_filled_targets)
     print(f"\n=== Submission written: {out_csv} ===")

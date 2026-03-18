@@ -27,10 +27,9 @@ pip install huggingface_hub
 python3 -c "
 from huggingface_hub import hf_hub_download
 import shutil, os
-# Download Public-Best checkpoint
-path = hf_hub_download('nvidia/RNAPro-Public-Best-500M', filename='rnapro_base.pt')
-shutil.copy(path, './rnapro_base.pt')
-print(f'Weights saved to ./rnapro_base.pt ({os.path.getsize(\"./rnapro_base.pt\") / 1e9:.1f} GB)')
+path = hf_hub_download('nvidia/RNAPro-Public-Best-500M', filename='rnapro-public-best-500m.ckpt')
+shutil.copy(path, './rnapro-public-best-500m.ckpt')
+print(f'Weights saved ({os.path.getsize(\"./rnapro-public-best-500m.ckpt\") / 1e9:.1f} GB)')
 "
 
 # --- Download RibonanzaNet2 checkpoint ---

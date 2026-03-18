@@ -27,13 +27,13 @@ cd "$RNAPRO_DIR"
 
 export LAYERNORM_TYPE=torch
 
-# Run without templates first (still strong — RibonanzaNet2 + MSA carry most of the weight)
-# Templates can be added later for a second run
+# No templates for now — RibonanzaNet2 + single-seq MSA
+# N_SAMPLE=1 because RNAPro uses n_templates_inf for diversity (skipped here)
 python3 runner/inference.py \
     --model_name rnapro_base \
     --seeds 42 \
     --dump_dir "$OUTPUT_DIR" \
-    --load_checkpoint_path ./rnapro_base.pt \
+    --load_checkpoint_path ./rnapro-public-best-500m.ckpt \
     --use_msa true \
     --use_template none \
     --model.use_template none \
@@ -43,14 +43,14 @@ python3 runner/inference.py \
     --model.N_cycle 10 \
     --sample_diffusion.N_sample 5 \
     --sample_diffusion.N_step 200 \
-    --load_strict false \
+    --load_strict true \
     --num_workers 0 \
     --triangle_attention torch \
     --triangle_multiplicative torch \
     --sequences_csv ./sequences.csv \
     --max_len 5000 \
     --logger logging \
-    2>&1 | tee "$REPO_DIR/rnapro_setup/rnapro_run.log"
+    2>&1 | tee ~/rnapro_run.log
 
 echo ""
 echo "=== RNAPro inference complete ==="
