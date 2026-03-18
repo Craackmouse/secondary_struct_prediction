@@ -1,0 +1,8 @@
+sequences:
+- rna:
+    id: A
+    sequence: ACCGUGACGGGCCUUUUGGCUAUACGCGGU
+- ligand:
+    id: B
+    smiles: Cc1ccc2ccc(nc2n1)NC(=O)CCNCCC(=O)NCc3ccc4c(n3)NC(=O)C=C4
+version: 1

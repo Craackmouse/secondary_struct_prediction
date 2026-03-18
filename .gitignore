@@ -1,0 +1,5 @@
+/.claude
+/data_extracted
+*.zip
+context.md
+context1.md

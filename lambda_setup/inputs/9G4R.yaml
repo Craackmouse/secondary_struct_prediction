@@ -1,0 +1,11 @@
+sequences:
+- rna:
+    id: A
+    sequence: CCCUACAGACGGAUUGAACGGCAACCGAUAGCGAGAAUCGGGUAGGG
+- ligand:
+    id: B
+    smiles: '[Na+]'
+- ligand:
+    id: C
+    smiles: '[O-]S(=O)(=O)[O-]'
+version: 1

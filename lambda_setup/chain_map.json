@@ -1,0 +1,246 @@
+{
+  "8ZNQ": [
+    {
+      "chain_id": "A",
+      "seq_len": 30
+    }
+  ],
+  "9IWF": [
+    {
+      "chain_id": "A",
+      "seq_len": 69
+    }
+  ],
+  "9JGM": [
+    {
+      "chain_id": "A",
+      "seq_len": 105
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 105
+    }
+  ],
+  "9MME": [
+    {
+      "chain_id": "A",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "C",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "D",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "E",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "F",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "G",
+      "seq_len": 580
+    },
+    {
+      "chain_id": "H",
+      "seq_len": 580
+    }
+  ],
+  "9J09": [
+    {
+      "chain_id": "A",
+      "seq_len": 214
+    }
+  ],
+  "9E9Q": [
+    {
+      "chain_id": "A",
+      "seq_len": 101
+    }
+  ],
+  "9CFN": [
+    {
+      "chain_id": "A",
+      "seq_len": 59
+    }
+  ],
+  "9OBM": [
+    {
+      "chain_id": "A",
+      "seq_len": 73
+    }
+  ],
+  "9G4P": [
+    {
+      "chain_id": "A",
+      "seq_len": 33
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 35
+    }
+  ],
+  "9G4Q": [
+    {
+      "chain_id": "A",
+      "seq_len": 52
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 52
+    }
+  ],
+  "9G4R": [
+    {
+      "chain_id": "A",
+      "seq_len": 47
+    }
+  ],
+  "9RVP": [
+    {
+      "chain_id": "A",
+      "seq_len": 34
+    }
+  ],
+  "9JFS": [
+    {
+      "chain_id": "A",
+      "seq_len": 246
+    }
+  ],
+  "9LEC": [
+    {
+      "chain_id": "A",
+      "seq_len": 378
+    }
+  ],
+  "9LEL": [
+    {
+      "chain_id": "A",
+      "seq_len": 476
+    }
+  ],
+  "9I9W": [
+    {
+      "chain_id": "A",
+      "seq_len": 14
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 14
+    }
+  ],
+  "9HRO": [
+    {
+      "chain_id": "A",
+      "seq_len": 35
+    }
+  ],
+  "9QZJ": [
+    {
+      "chain_id": "A",
+      "seq_len": 19
+    }
+  ],
+  "9JFO": [
+    {
+      "chain_id": "A",
+      "seq_len": 195
+    }
+  ],
+  "9OD4": [
+    {
+      "chain_id": "A",
+      "seq_len": 23
+    }
+  ],
+  "9WHV": [
+    {
+      "chain_id": "A",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "C",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "D",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "E",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "F",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "G",
+      "seq_len": 10
+    },
+    {
+      "chain_id": "H",
+      "seq_len": 10
+    }
+  ],
+  "9E74": [
+    {
+      "chain_id": "A",
+      "seq_len": 255
+    }
+  ],
+  "9E75": [
+    {
+      "chain_id": "A",
+      "seq_len": 165
+    }
+  ],
+  "9G4J": [
+    {
+      "chain_id": "A",
+      "seq_len": 334
+    }
+  ],
+  "9KGG": [
+    {
+      "chain_id": "A",
+      "seq_len": 267
+    }
+  ],
+  "9EBP": [
+    {
+      "chain_id": "A",
+      "seq_len": 81
+    }
+  ],
+  "9LJN": [
+    {
+      "chain_id": "A",
+      "seq_len": 71
+    }
+  ],
+  "9ZCC": [
+    {
+      "chain_id": "A",
+      "seq_len": 730
+    },
+    {
+      "chain_id": "B",
+      "seq_len": 730
+    }
+  ]
+}

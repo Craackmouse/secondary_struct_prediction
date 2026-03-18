@@ -1,0 +1,5 @@
+sequences:
+- rna:
+    id: A
+    sequence: GGUUCACCUACAGUGAACC
+version: 1

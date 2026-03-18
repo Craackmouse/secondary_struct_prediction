@@ -1,0 +1,14 @@
+sequences:
+- rna:
+    id: A
+    sequence: CCUUGCAUCCACAUGAUUUGAGAUGGUCACACGUUUUGAGGGCGUGGUAAGG
+- rna:
+    id: B
+    sequence: CCUUGCAUCCACAUGAUUUGAGAUGGUCACACGUUUUGAGGGCGUGGUAAGG
+- ligand:
+    id: C
+    smiles: '[K+]'
+- ligand:
+    id: D
+    smiles: '[Mg+2]'
+version: 1

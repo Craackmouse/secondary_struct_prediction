@@ -1,0 +1,26 @@
+sequences:
+- rna:
+    id: A
+    sequence: GUUAGGGUUA
+- rna:
+    id: B
+    sequence: GUUAGGGUUA
+- rna:
+    id: C
+    sequence: GUUAGGGUUA
+- rna:
+    id: D
+    sequence: GUUAGGGUUA
+- rna:
+    id: E
+    sequence: GUUAGGGUUA
+- rna:
+    id: F
+    sequence: GUUAGGGUUA
+- rna:
+    id: G
+    sequence: GUUAGGGUUA
+- rna:
+    id: H
+    sequence: GUUAGGGUUA
+version: 1
