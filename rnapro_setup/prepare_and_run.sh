@@ -27,8 +27,10 @@ cd "$RNAPRO_DIR"
 
 export LAYERNORM_TYPE=torch
 
-# No templates for now — RibonanzaNet2 + single-seq MSA
-# N_SAMPLE=1 because RNAPro uses n_templates_inf for diversity (skipped here)
+# Create empty template file (required even when use_template=none)
+python3 -c "import torch; torch.save({}, './empty_templates.pt')"
+
+# No templates — RibonanzaNet2 + single-seq MSA
 python3 runner/inference.py \
     --model_name rnapro_base \
     --seeds 42 \
@@ -37,6 +39,7 @@ python3 runner/inference.py \
     --use_msa true \
     --use_template none \
     --model.use_template none \
+    --template_data ./empty_templates.pt \
     --model.use_RibonanzaNet2 true \
     --model.template_embedder.n_blocks 2 \
     --model.ribonanza_net_path ./release_data/ribonanzanet2_checkpoint \
