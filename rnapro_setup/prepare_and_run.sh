@@ -3,7 +3,7 @@
 # Run from home directory: bash ~/repo/rnapro_setup/prepare_and_run.sh
 set -e
 
-source "$(conda info --base)/etc/profile.d/conda.sh"
+source ~/miniconda3/etc/profile.d/conda.sh
 conda activate rnapro
 
 REPO_DIR=~/repo

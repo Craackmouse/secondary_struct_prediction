@@ -6,7 +6,7 @@
 
 set -e
 
-source "$(conda info --base)/etc/profile.d/conda.sh"
+source ~/miniconda3/etc/profile.d/conda.sh
 conda activate rna_pred
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

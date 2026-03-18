@@ -6,7 +6,7 @@ set -e
 echo "=== RNAPro Setup ==="
 
 # --- Conda env ---
-source "$(conda info --base)/etc/profile.d/conda.sh"
+source ~/miniconda3/etc/profile.d/conda.sh
 conda create -n rnapro python=3.12 -y
 conda activate rnapro
 
