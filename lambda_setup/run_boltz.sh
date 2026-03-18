@@ -51,8 +51,9 @@ for yaml_file in "${YAMLS[@]}"; do
 
     boltz predict "$yaml_file" \
         $USE_MSA \
-        --num_diffusion_samples 5 \
-        --output_dir "$OUT_DIR" \
+        --diffusion_samples 5 \
+        --no_kernels \
+        --out_dir "$OUT_DIR" \
         2>&1 | tee "$LOGS_DIR/${TARGET}.log" || {
             echo "[FAIL] $TARGET — check logs/${TARGET}.log"
             echo "$TARGET" >> "$FAILED_LOG"
