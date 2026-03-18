@@ -3,4 +3,7 @@
 *.zip
 context.md
 context1.md
+context2.md
 *.pem
+submission.csv
+submission_fixed.csv
