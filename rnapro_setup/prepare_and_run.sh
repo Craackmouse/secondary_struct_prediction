@@ -36,6 +36,7 @@ python3 runner/inference.py \
     --seeds 42 \
     --dump_dir "$OUTPUT_DIR" \
     --load_checkpoint_path ./rnapro-public-best-500m.ckpt \
+    --rna_msa_dir "$MSA_DIR" \
     --use_msa true \
     --use_template none \
     --model.use_template none \

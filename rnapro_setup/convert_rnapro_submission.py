@@ -4,8 +4,8 @@ Convert RNAPro CIF output → Kaggle submission CSV.
 Uses sample_submission.csv as template for exact row ordering.
 """
 
+import argparse
 import csv
-import json
 import sys
 from pathlib import Path
 
@@ -50,32 +50,21 @@ def extract_c1prime_coords(cif_path: Path) -> dict[int, dict]:
     return coords
 
 
-def main():
-    base_dir = Path(__file__).parent.parent  # repo root
-    rnapro_output = Path.home() / "RNAPro" / "output"
-    sample_csv = base_dir / "lambda_setup" / "sample_submission.csv"
-    out_csv = base_dir / "rnapro_setup" / "submission.csv"
-
-    if not sample_csv.exists():
-        print("ERROR: sample_submission.csv not found", file=sys.stderr)
-        sys.exit(1)
-
-    # Find all CIF files per target
+def collect_rnapro_predictions(rnapro_output: Path) -> dict[str, dict]:
+    """Map submission row ID -> {x_1, y_1, ...} from RNAPro CIF tree."""
     target_cifs: dict[str, list[Path]] = {}
-    if rnapro_output.exists():
-        for cif in sorted(rnapro_output.rglob("*.cif")):
-            # Extract target_id from path or filename
-            tid = cif.stem.split("_")[0] if "_" in cif.stem else cif.stem
-            # Try parent directory name as target_id
-            parent_tid = cif.parent.name
-            # Use whichever matches a known pattern
-            for candidate in [parent_tid, tid]:
-                if len(candidate) == 4 and candidate[0].isdigit():
-                    tid = candidate
-                    break
-            target_cifs.setdefault(tid, []).append(cif)
+    if not rnapro_output.exists():
+        return {}
 
-    # Extract coords from CIFs
+    for cif in sorted(rnapro_output.rglob("*.cif")):
+        tid = cif.stem.split("_")[0] if "_" in cif.stem else cif.stem
+        parent_tid = cif.parent.name
+        for candidate in (parent_tid, tid):
+            if len(candidate) == 4 and candidate[0].isdigit():
+                tid = candidate
+                break
+        target_cifs.setdefault(tid, []).append(cif)
+
     pred_by_id: dict[str, dict] = {}
     for tid, cifs in target_cifs.items():
         cifs = cifs[:N_MODELS]
@@ -85,7 +74,6 @@ def main():
             if coords:
                 all_model_coords.append(coords)
 
-        # Pad by repeating last model
         while len(all_model_coords) < N_MODELS:
             if all_model_coords:
                 all_model_coords.append(all_model_coords[-1])
@@ -107,7 +95,15 @@ def main():
                 pred_by_id[row_id][f"y_{mi}"] = c["y"]
                 pred_by_id[row_id][f"z_{mi}"] = c["z"]
 
-    # Write using sample template
+    return pred_by_id
+
+
+def write_submission_from_template(
+    sample_csv: Path,
+    out_csv: Path,
+    pred_by_id: dict[str, dict],
+) -> tuple[int, int]:
+    """Fill coordinate columns from pred_by_id; zeros for missing rows."""
     COLUMNS = (["ID", "resname", "resid"] +
                [f"{x}_{i}" for i in range(1, N_MODELS + 1) for x in ("x", "y", "z")])
 
@@ -128,15 +124,55 @@ def main():
                     row[f"z_{m}"] = 0.0
             all_rows.append(row)
 
+    out_csv.parent.mkdir(parents=True, exist_ok=True)
     with open(out_csv, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=COLUMNS)
         writer.writeheader()
         writer.writerows(all_rows)
 
-    predicted = sum(1 for r in all_rows
-                    if any(float(r.get(f"x_{i}", 0)) != 0 for i in range(1, 6)))
-    print(f"\n=== Submission: {out_csv} ===")
-    print(f"  Total rows: {len(all_rows)}")
+    predicted = sum(
+        1 for r in all_rows
+        if any(float(r.get(f"x_{i}", 0)) != 0 for i in range(1, N_MODELS + 1))
+    )
+    return len(all_rows), predicted
+
+
+def main() -> None:
+    repo_root = Path(__file__).resolve().parent.parent
+    default_sample = repo_root / "lambda_setup" / "sample_submission.csv"
+    default_out = Path(__file__).resolve().parent / "submission.csv"
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--sample-submission",
+        type=Path,
+        default=default_sample,
+        help="sample_submission.csv from the competition (row order template)",
+    )
+    parser.add_argument(
+        "--rnapro-output",
+        type=Path,
+        default=Path.home() / "RNAPro" / "output",
+        help="Directory containing RNAPro *.cif outputs",
+    )
+    parser.add_argument(
+        "--out-csv",
+        type=Path,
+        default=default_out,
+        help="Output submission path",
+    )
+    args = parser.parse_args()
+
+    if not args.sample_submission.exists():
+        print("ERROR: sample_submission.csv not found", file=sys.stderr)
+        sys.exit(1)
+
+    pred_by_id = collect_rnapro_predictions(args.rnapro_output)
+    n_rows, predicted = write_submission_from_template(
+        args.sample_submission, args.out_csv, pred_by_id
+    )
+    print(f"\n=== Submission: {args.out_csv} ===")
+    print(f"  Total rows: {n_rows}")
     print(f"  Rows with predictions: {predicted}")
 
 

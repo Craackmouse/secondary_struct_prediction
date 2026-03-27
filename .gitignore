@@ -7,3 +7,16 @@ context2.md
 *.pem
 submission.csv
 submission_fixed.csv
+
+# Submission CSVs
+*_submission.csv
+boltz_submission.csv
+rnapro_submission.csv
+
+# Mac / IDE / tool artifacts
+.DS_Store
+.agentvibes/
+.mcp.json
+
+# Large local Kaggle upload bundle (checkpoint + CCD + Ribonanza)
+rnapro_kaggle_dataset/
